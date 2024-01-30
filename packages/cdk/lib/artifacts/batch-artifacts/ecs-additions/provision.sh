@@ -6,7 +6,7 @@ set -x
 OS=$(uname -r)
 export OS
 BASEDIR=$(dirname "$0")
-INITIAL_EBS_SIZE="${1:-200}"
+INITIAL_EBS_SIZE="${1:-500}"
 
 echo OS = "$OS"
 echo BASEDIR = "$BASEDIR"
