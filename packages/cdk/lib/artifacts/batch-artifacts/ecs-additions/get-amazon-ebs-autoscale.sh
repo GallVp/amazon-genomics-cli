@@ -185,6 +185,7 @@ function dist_release() {
 
 function install() {
     local filesystem=${1:-btrfs}
+    local initialsize=${2:-500}
     echo "ebs autoscale filesystem = $filesystem"
     local docker_storage_driver
 
@@ -207,7 +208,7 @@ function install() {
     rm -rf /var/lib/docker/*
 
     echo "installing ebs autoscale"
-    sh /opt/amazon-ebs-autoscale/install.sh -d /dev/xvdba -f "$filesystem" -m /var/lib/docker > /var/log/ebs-autoscale-install.log 2>&1
+    sh /opt/amazon-ebs-autoscale/install.sh -d /dev/xvdba -f "$filesystem" -m /var/lib/docker -s "$initialsize" > /var/log/ebs-autoscale-install.log 2>&1
     echo "/opt/amazon-ebs-autoscale/install.sh exited with return code $?"
 
     awk -v docker_storage_options="$docker_storage_options" \
@@ -224,4 +225,4 @@ mkdir -p /opt
 cd /opt
 $INSTALL_VERSION
 
-install "$FILESYSTEM"
+install "$FILESYSTEM" "$INITIAL_SIZE"
